@@ -10,14 +10,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'ଫ୍ଲଟର ଡେମୋ',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       initialRoute: '/',
       routes: {
-        '/': (context) => const MyHomePage(title: 'Flutter Demo Home Page'),
+        '/': (context) => const MyHomePage(title: 'ଫ୍ଲଟର ଡେମୋ ମୁଖ୍ୟ ପୃଷ୍ଠା'),
       },
     );
   }
@@ -52,14 +52,14 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('You have pushed the button this many times:'),
+            const Text('ଆପଣ ଏହି ବଟନ୍ କୁ ଏତେ ଥର ଦବାଇଛନ୍ତି:'),
             Text('$_counter', style: Theme.of(context).textTheme.headlineMedium),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        tooltip: 'ବଢାନ୍ତୁ',
         child: const Icon(Icons.add),
       ), 
     );
