@@ -1,67 +1,100 @@
 import 'package:flutter/material.dart';
+import 'models.dart';
+import 'screens.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const PashuAushadhiApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class PashuAushadhiApp extends StatefulWidget {
+  const PashuAushadhiApp({super.key});
+
+  @override
+  State<PashuAushadhiApp> createState() => _PashuAushadhiAppState();
+}
+
+class _PashuAushadhiAppState extends State<PashuAushadhiApp> {
+  final AppState appState = AppState();
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'ଫ୍ଲଟର ଡେମୋ',
+      title: 'Pashu Aushadhi Vikray Kendra',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.teal,
+          primary: Colors.teal,
+          secondary: Colors.orange,
+        ),
+        useMaterial3: true,
+        appBarTheme: const AppBarTheme(
+          centerTitle: true,
+          elevation: 0,
+        ),
       ),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const MyHomePage(title: 'ଫ୍ଲଟର ଡେମୋ ମୁଖ୍ୟ ପୃଷ୍ଠା'),
-      },
+      home: MainScreen(appState: appState),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
+class MainScreen extends StatefulWidget {
+  final AppState appState;
+  const MainScreen({super.key, required this.appState});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _MainScreenState extends State<MainScreen> {
+  int _currentIndex = 0;
+  late List<Widget> _screens;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  @override
+  void initState() {
+    super.initState();
+    _screens = [
+      DashboardScreen(appState: widget.appState),
+      POSScreen(appState: widget.appState),
+      InventoryScreen(appState: widget.appState),
+      PurchasesScreen(appState: widget.appState),
+    ];
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+      body: _screens[_currentIndex],
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _currentIndex,
+        onDestinationSelected: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.dashboard_outlined), 
+            selectedIcon: Icon(Icons.dashboard), 
+            label: 'Dashboard'
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.point_of_sale_outlined), 
+            selectedIcon: Icon(Icons.point_of_sale), 
+            label: 'POS'
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.inventory_2_outlined), 
+            selectedIcon: Icon(Icons.inventory_2), 
+            label: 'Inventory'
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.shopping_cart_outlined), 
+            selectedIcon: Icon(Icons.shopping_cart), 
+            label: 'Purchases'
+          ),
+        ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('ଆପଣ ଏହି ବଟନ୍ କୁ ଏତେ ଥର ଦବାଇଛନ୍ତି:'),
-            Text('$_counter', style: Theme.of(context).textTheme.headlineMedium),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'ବଢାନ୍ତୁ',
-        child: const Icon(Icons.add),
-      ), 
     );
   }
 }
